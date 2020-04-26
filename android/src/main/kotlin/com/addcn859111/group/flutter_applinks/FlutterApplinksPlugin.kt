@@ -22,6 +22,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
 
   private var channel: MethodChannel? = null
   private var mainActivity: Activity? = null
+  private var appLinks: String = ""
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     onAttachedToEngine(flutterPluginBinding.applicationContext, flutterPluginBinding.binaryMessenger)
@@ -56,6 +57,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
       }
 
       override fun onActivityDestroyed(activity: Activity) {
+        (context as Application).unregisterActivityLifecycleCallbacks(this)
       }
 
       override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
@@ -65,7 +67,8 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
       }
 
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        channel?.invokeMethod("openApplinks", mapOf("url" to activity.intent.data.toString()))
+        appLinks = activity.intent.data?.toString() ?: ""
+        channel?.invokeMethod("openApplinks", mapOf("url" to appLinks))
       }
 
       override fun onActivityResumed(activity: Activity) {
@@ -74,11 +77,8 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
-      val appLinkData = mainActivity?.intent?.data
-      if (null != appLinkData) {
-        result.success("Android $appLinkData")
-      }
+    if (call.method == "appLinks") {
+      result.success(appLinks)
     } else {
       result.notImplemented()
     }
