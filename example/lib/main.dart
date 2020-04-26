@@ -19,9 +19,11 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initPlatformState();
 
-    FlutterApplinks.addEventHandler(openApplinks: (url) {
+    FlutterApplinks.addEventHandler(openApplinks: (url){
+      print(url);
       return null;
     });
+
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -52,10 +54,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: GestureDetector(
-            onTap: () => initPlatformState(),
-            child: Text('Running on: $_platformVersion\n'),
-          ),
+          child: Text('Running on: $_platformVersion\n'),
         ),
       ),
     );
