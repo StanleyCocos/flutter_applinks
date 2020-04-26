@@ -21,7 +21,6 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.NewIntentListener {
 
   private var channel: MethodChannel? = null
-  private var applicationContext: Context? = null
   private var mainActivity: Activity? = null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -49,7 +48,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
   private fun onAttachedToEngine(context: Context, binaryMessenger: BinaryMessenger) {
     channel = MethodChannel(binaryMessenger, "flutter_applinks")
     channel?.setMethodCallHandler(this)
-    (applicationContext as Application).registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+    (context as Application).registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
       override fun onActivityPaused(activity: Activity) {
       }
 
