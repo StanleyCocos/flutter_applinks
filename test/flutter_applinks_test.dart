@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await FlutterApplinks.platformVersion, '42');
+    expect(await FlutterApplinks.appLinks, '42');
   });
 }

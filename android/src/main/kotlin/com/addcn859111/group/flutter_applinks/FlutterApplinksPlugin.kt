@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.NonNull
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -57,7 +58,9 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
       }
 
       override fun onActivityDestroyed(activity: Activity) {
-        (context as Application).unregisterActivityLifecycleCallbacks(this)
+        if (activity == mainActivity) {
+          (context as Application).unregisterActivityLifecycleCallbacks(this)
+        }
       }
 
       override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
@@ -78,7 +81,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "appLinks") {
-      result.success(appLinks)
+      result.success(mainActivity?.intent?.data ?: "")
     } else {
       result.notImplemented()
     }
