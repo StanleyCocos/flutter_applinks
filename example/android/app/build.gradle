@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.addcn.flutter_applinks_example"
+        applicationId "com.addcn.android.design591"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()

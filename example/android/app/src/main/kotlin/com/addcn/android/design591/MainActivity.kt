@@ -1,4 +1,4 @@
-package com.addcn.flutter_applinks_example
+package com.addcn.android.design591
 
 import io.flutter.embedding.android.FlutterActivity
 
