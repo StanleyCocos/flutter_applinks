@@ -70,8 +70,8 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
       }
 
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        appLinks = activity.intent.data?.toString() ?: ""
-        channel?.invokeMethod("openApplinks", mapOf("url" to appLinks))
+        val appLink =  activity.intent.data?.toString() ?: ""
+        channel?.invokeMethod("openApplinks", mapOf("url" to appLink))
       }
 
       override fun onActivityResumed(activity: Activity) {
@@ -81,7 +81,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "appLinks") {
-      result.success(mainActivity?.intent?.data ?: "")
+      result.success(appLinks)
     } else {
       result.notImplemented()
     }
@@ -102,6 +102,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     this.mainActivity = binding.activity
+    appLinks = binding.activity.intent.data?.toString() ?: ""
     binding.addOnNewIntentListener(this)
   }
 
