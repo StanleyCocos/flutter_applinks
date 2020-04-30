@@ -39,7 +39,7 @@
     if(token != nil && token.length > 0){
         [self.channel invokeMethod:@"app_push_token" arguments:token];
     }else {
-        [self.channel invokeMethod:@"app_push_token" arguments:"test"];
+        [self.channel invokeMethod:@"app_push_token" arguments:@"test"];
     }
 }
 
