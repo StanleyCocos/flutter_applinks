@@ -41,6 +41,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
 
   private fun setActivity(flutterActivity: Activity) {
     mainActivity = flutterActivity
+    appLinks = flutterActivity.intent.data?.toString() ?: ""
   }
 
   private fun addNewIntentListener(registrar: Registrar) {
@@ -50,33 +51,6 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
   private fun onAttachedToEngine(context: Context, binaryMessenger: BinaryMessenger) {
     channel = MethodChannel(binaryMessenger, "flutter_applinks")
     channel?.setMethodCallHandler(this)
-    (context as Application).registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
-      override fun onActivityPaused(activity: Activity) {
-      }
-
-      override fun onActivityStarted(activity: Activity) {
-      }
-
-      override fun onActivityDestroyed(activity: Activity) {
-        if (activity == mainActivity) {
-          (context as Application).unregisterActivityLifecycleCallbacks(this)
-        }
-      }
-
-      override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-      }
-
-      override fun onActivityStopped(activity: Activity) {
-      }
-
-      override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        val appLink =  activity.intent.data?.toString() ?: ""
-        channel?.invokeMethod("openApplinks", mapOf("url" to appLink))
-      }
-
-      override fun onActivityResumed(activity: Activity) {
-      }
-    })
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
