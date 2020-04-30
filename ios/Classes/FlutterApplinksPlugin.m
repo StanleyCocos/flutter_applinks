@@ -37,7 +37,7 @@
 
     NSString * token = [self getHexStringForData:deviceToken];
     if(token != nil && token.length > 0){
-        [channel invokeMethod:"app_push_token" arguments:token];
+        [self.channel invokeMethod:@"app_push_token" arguments:token];
     }
 }
 
