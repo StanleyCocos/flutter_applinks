@@ -29,7 +29,11 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
 
     NSString * url = userActivity.webpageURL.absoluteString;
-    [self.channel invokeMethod:@"openApplinks" arguments:@{@"url": url}];
+    if(url != nil && url.length > 0){
+        [self.channel invokeMethod:@"openApplinks" arguments: url];
+    }else {
+        [self.channel invokeMethod:@"openApplinks" arguments: @""];
+    }
     return YES;
 }
 
@@ -39,7 +43,7 @@
     if(token != nil && token.length > 0){
         [self.channel invokeMethod:@"app_push_token" arguments:token];
     }else {
-        [self.channel invokeMethod:@"app_push_token" arguments:@"test"];
+        [self.channel invokeMethod:@"app_push_token" arguments:@""];
     }
 }
 

@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-typedef Future<dynamic> FlutterApplinksHandler(String url);
-typedef Future<dynamic> FlutterAppPushTokenHandler(String token);
+typedef void FlutterApplinksHandler(String value);
 
 class FlutterApplinks {
   static const MethodChannel _channel = const MethodChannel('flutter_applinks');
@@ -21,24 +20,24 @@ class FlutterApplinks {
   static const Link = "openApplinks";
   static const Token = "app_push_token";
 
-
-  static Future<String?> addEventHandler({
+  static void addEventHandler({
     FlutterApplinksHandler? openApplinks,
-    FlutterAppPushTokenHandler? pushToken,
+    FlutterApplinksHandler? pushToken,
   }) async {
-    _channel.setMethodCallHandler((call) async {
-      if (Link == call.method) {
-        String? url = call.arguments["url"];
-        if (url != null && url.length > 0) {
-          return await openApplinks?.call(url);
+    _channel.setMethodCallHandler(
+      (call) async {
+        if (Link == call.method) {
+          String? url = call.arguments;
+          if (url != null && url.length > 0) {
+            openApplinks?.call(url);
+          }
+        } else if (Token == call.method) {
+          String? token = call.arguments;
+          if (token != null && token.length > 0) {
+            pushToken?.call(token);
+          }
         }
-      } else if (Token == call.method) {
-        String? token = call.arguments;
-        if (token != null && token.length > 0) {
-          return await pushToken?.call(token);
-        }
-      }
-      return null;
-    });
+      },
+    );
   }
 }
