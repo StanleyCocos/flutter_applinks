@@ -18,23 +18,27 @@ class FlutterApplinks {
     return appLinks;
   }
 
-  static Future<dynamic> addEventHandler({
+  static const Link = "openApplinks";
+  static const Token = "app_push_token";
+
+
+  static Future<String?> addEventHandler({
     FlutterApplinksHandler? openApplinks,
     FlutterAppPushTokenHandler? pushToken,
   }) async {
-    _channel.setMethodCallHandler((call) {
-      if ("openApplinks" == call.method) {
+    _channel.setMethodCallHandler((call) async {
+      if (Link == call.method) {
         String? url = call.arguments["url"];
         if (url != null && url.length > 0) {
-          return openApplinks!(url);
+          return await openApplinks?.call(url);
         }
-      } else if ("app_push_token" == call.method) {
+      } else if (Token == call.method) {
         String? token = call.arguments;
         if (token != null && token.length > 0) {
-          return pushToken!(token);
+          return await pushToken?.call(token);
         }
       }
-      return null as dynamic;
+      return null;
     });
   }
 }
