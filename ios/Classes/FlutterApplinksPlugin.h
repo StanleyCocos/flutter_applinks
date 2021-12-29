@@ -4,4 +4,6 @@
 
 @property FlutterMethodChannel *channel;
 
+@property (copy, nonatomic) NSString * appLink;
+
 @end

@@ -21,14 +21,19 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-    result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+    if([@"appLinks" isEqualToString:call.method]){
+        result(self.appLink);
+    } else {
+        result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+
+    }
 
 }
 
 #pragma mark - AppDelegate
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
-
     NSString * url = userActivity.webpageURL.absoluteString;
+    self.appLink = url;
     if(url != nil && url.length > 0){
         [self.channel invokeMethod:@"openApplinks" arguments: url];
     }else {
