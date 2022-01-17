@@ -85,7 +85,7 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
   }
 
   override fun onNewIntent(intent: Intent?): Boolean {
-    channel?.invokeMethod("openApplinks", mapOf("url" to intent?.data.toString()))
+    channel?.invokeMethod("openApplinks", intent?.data.toString())
     return false
   }
 }
