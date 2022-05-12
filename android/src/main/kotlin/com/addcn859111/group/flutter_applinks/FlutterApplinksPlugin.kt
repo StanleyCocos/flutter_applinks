@@ -39,9 +39,9 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
     }
   }
 
-  private fun setActivity(flutterActivity: Activity) {
+  private fun setActivity(flutterActivity: Activity?) {
     mainActivity = flutterActivity
-    appLinks = flutterActivity.intent.data?.toString() ?: ""
+    appLinks = flutterActivity?.intent?.data?.toString() ?: ""
   }
 
   private fun addNewIntentListener(registrar: Registrar) {
@@ -84,8 +84,8 @@ public class FlutterApplinksPlugin : FlutterPlugin, MethodCallHandler, ActivityA
     this.mainActivity = null
   }
 
-  override fun onNewIntent(intent: Intent?): Boolean {
-    channel?.invokeMethod("openApplinks", intent?.data.toString())
+  override fun onNewIntent(intent: Intent): Boolean {
+    channel?.invokeMethod("openApplinks", intent.data?.toString())
     return false
   }
 }
