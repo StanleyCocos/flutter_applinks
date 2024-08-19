@@ -4,6 +4,8 @@ A new Flutter plugin.
 
 ## Getting Started
 
+[![GitHub stars](https://img.shields.io/github/stars/StanleyCocos/flutter_applinks)]
+
 This project is a starting point for a Flutter
 [plug-in package](https://flutter.dev/developing-packages/),
 a specialized package that includes platform-specific implementation code for
