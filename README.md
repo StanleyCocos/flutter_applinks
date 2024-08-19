@@ -4,7 +4,7 @@ A new Flutter plugin.
 
 ## Getting Started
 
-[![GitHub stars](https://img.shields.io/github/stars/StanleyCocos/flutter_applinks)]
+![GitHub stars](https://img.shields.io/github/stars/StanleyCocos/flutter_applinks)
 
 This project is a starting point for a Flutter
 [plug-in package](https://flutter.dev/developing-packages/),
